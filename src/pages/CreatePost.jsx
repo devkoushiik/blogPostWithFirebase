@@ -1,10 +1,12 @@
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
-
+import { useTitle } from "../hooks/useTitle";
 export const CreatePost = () => {
   const navigate = useNavigate();
   const postRef = collection(db, "posts");
+
+  useTitle("Create Post");
 
   const handleSubmitPost = async (e) => {
     e.preventDefault();

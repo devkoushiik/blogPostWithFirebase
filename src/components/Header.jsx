@@ -1,4 +1,4 @@
-import { Link, NavLink, UNSAFE_DataRouterStateContext } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../firebase/config";
 import { useState } from "react";
@@ -8,9 +8,12 @@ export const Header = () => {
     JSON.parse(localStorage.getItem("isAuth")) || false
   );
 
+  let name, photoUrl;
+  name = auth?.currentUser?.displayName;
+  photoUrl = auth?.currentUser?.photoURL;
+
   const handleLogin = () => {
-    signInWithPopup(auth, provider).then((res) => {
-      console.log(res.user.displayName);
+    signInWithPopup(auth, provider).then(() => {
       setIsAuth(true);
       localStorage.setItem("isAuth", true);
     });
@@ -25,7 +28,14 @@ export const Header = () => {
   return (
     <header>
       <Link to="/">
-        <h3 className="logo">BP</h3>
+        <h3
+          className="logo"
+          style={{
+            fontSize: "20px",
+          }}
+        >
+          BP
+        </h3>
         {/* <img src="" alt="" /> */}
         <span>BlogPost</span>
       </Link>
@@ -47,6 +57,26 @@ export const Header = () => {
           <button onClick={handleLogout} className="auth">
             Logout
           </button>
+        )}
+        {isAuth && (
+          <h3
+            style={{
+              marginLeft: "20px",
+              marginRight: "20px",
+            }}
+          >
+            {name}
+          </h3>
+        )}
+        {isAuth && (
+          <img
+            style={{
+              borderRadius: "50%",
+            }}
+            src={photoUrl}
+            width={50}
+            height={50}
+          />
         )}
       </nav>
     </header>
