@@ -2,10 +2,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import { useTitle } from "../hooks/useTitle";
+import { useSnackbar } from "notistack";
 export const CreatePost = () => {
   const navigate = useNavigate();
   const postRef = collection(db, "posts");
-
+  const { enqueueSnackbar } = useSnackbar();
   useTitle("Create Post");
 
   const handleSubmitPost = async (e) => {
@@ -20,6 +21,7 @@ export const CreatePost = () => {
     };
     await addDoc(postRef, document);
     navigate("/");
+    enqueueSnackbar("Post Created Successfully.");
   };
 
   return (
