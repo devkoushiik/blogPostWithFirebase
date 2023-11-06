@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PostCard, SkeletonCard } from "../components";
 import { getDocs, collection } from "firebase/firestore";
-import { auth, db } from "../firebase/config";
+import { db } from "../firebase/config";
 import { useTitle } from "../hooks/useTitle";
 
 export const HomePage = () => {

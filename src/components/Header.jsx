@@ -8,10 +8,6 @@ export const Header = () => {
     JSON.parse(localStorage.getItem("isAuth")) || false
   );
 
-  let name, photoUrl;
-  name = auth?.currentUser?.displayName;
-  photoUrl = auth?.currentUser?.photoURL;
-
   const handleLogin = () => {
     signInWithPopup(auth, provider).then(() => {
       setIsAuth(true);
@@ -65,18 +61,8 @@ export const Header = () => {
               marginRight: "20px",
             }}
           >
-            {name}
+            {auth?.currentUser?.displayName}
           </h3>
-        )}
-        {isAuth && (
-          <img
-            style={{
-              borderRadius: "50%",
-            }}
-            src={photoUrl}
-            width={50}
-            height={50}
-          />
         )}
       </nav>
     </header>
