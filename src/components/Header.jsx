@@ -1,7 +1,26 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, UNSAFE_DataRouterStateContext } from "react-router-dom";
+import { signInWithPopup, signOut } from "firebase/auth";
+import { auth, provider } from "../firebase/config";
+import { useState } from "react";
 
 export const Header = () => {
-  const isAuth = false;
+  const [isAuth, setIsAuth] = useState(
+    JSON.parse(localStorage.getItem("isAuth")) || false
+  );
+
+  const handleLogin = () => {
+    signInWithPopup(auth, provider).then((res) => {
+      console.log(res.user.displayName);
+      setIsAuth(true);
+      localStorage.setItem("isAuth", true);
+    });
+  };
+
+  const handleLogout = () => {
+    signOut(auth);
+    setIsAuth(false);
+    localStorage.setItem("isAuth", false);
+  };
 
   return (
     <header>
@@ -19,8 +38,16 @@ export const Header = () => {
             Create
           </NavLink>
         )}
-        {!isAuth && <button className="auth">Login</button>}
-        {isAuth && <button className="auth">Logout</button>}
+        {!isAuth && (
+          <button onClick={handleLogin} className="auth">
+            Login
+          </button>
+        )}
+        {isAuth && (
+          <button onClick={handleLogout} className="auth">
+            Logout
+          </button>
+        )}
       </nav>
     </header>
   );
